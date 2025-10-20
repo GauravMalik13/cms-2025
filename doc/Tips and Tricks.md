@@ -1,5 +1,11 @@
 # CMSSW TIPS AND TRICKS
 
+  
+## Table of Content
+- [Use VS Code instead of vim in terminal.](#use-vs-code-instead-of-vim-in-terminal)
+- [Kerberos Ticket System](#kerberos-ticket-system)
+
+
 ## Use VS Code instead of vim in terminal.
 
 * ### Install Remote-Development Extensions pack from Microsoft.
@@ -98,9 +104,10 @@ Add this in the file:
     .cern.ch = CERN.CH
     cern.ch = CERN.CH
 ```
-Also Configure SSH for better usage of kerberos ticket:
-```
 
+Also Configure SSH for better usage of kerberos ticket:
+
+```
 Host lxplus
         HostName lxplus.cern.ch
         User <USERNAME>
