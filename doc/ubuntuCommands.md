@@ -9,11 +9,12 @@
 ### `export`
 
 This is a command that is used to set the environment variable in the terminal.
-    Usage:
+    
+Usage:
 
-    ```bash
-    export varName="something"
-    ```
+```bash
+export varName="something"
+```
 
 ### `source`
 
