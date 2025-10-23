@@ -13,7 +13,7 @@ This is a command that is used to set the environment variable in the terminal.
 Usage:
 
 ```bash
-    export varName="something"
+export varName="something"
 ```
 
 ### `source`
