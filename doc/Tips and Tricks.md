@@ -4,6 +4,9 @@
 ## Table of Content
 - [Use VS Code instead of vim in terminal.](#use-vs-code-instead-of-vim-in-terminal)
 - [Kerberos Ticket System](#kerberos-ticket-system)
+- [SSH Configuration](#ssh-configuration)
+- [Kerberos Commands](#kerberos-commands)
+- [SSH and scp Commands](#ssh-and-scp-commands)
 
 
 ## Use VS Code instead of vim in terminal.
@@ -105,21 +108,55 @@ Add this in the file:
     cern.ch = CERN.CH
 ```
 
-Also Configure SSH for better usage of kerberos ticket:
+## SSH Configuration
 
+Configure SSH to use kerberos ticket and Control Master(for not having to put 2FA authentication again and again along with password):
+
+### The Control Master part for linux is taken from this [Link](https://cern.service-now.com/service-portal?id=kb_article&n=KB0009800)
+
+Open ssh config file with 
+
+```bash
+nano ~/.ssh/config
 ```
+
+Then paste this in the config file.
+
+```bash
 Host lxplus
-        HostName lxplus.cern.ch
-        User <USERNAME>
+        HostName lxplus*.cern.ch
+        User magaurav
         ForwardX11 yes
         GSSAPIAuthentication yes
         GSSAPIDelegateCredentials yes
         RequestTTY yes
         StrictHostKeyChecking no
         UserKnownHostsFile /dev/null
+        # Don't Use Proxy Jump with lxplus
+        ProxyJump none
+        # Public Key Authentication is impossible with lxplus
+        PubkeyAuthentication no
+        # Forwarding public keys may make sense however to login to other hosts.
+        ForwardAgent yes
+        # IP addresses move around too much at CERN so ignore them.
+        CheckHostIP no
+        # Normally a good idea always to keep things alive.
+        ServerAliveInterval 100
+        # Finally configure the ControlMaster
+        # On  a Mac use ControlPath ~/.ssh/%r@%h:%p
+        ControlPath /run/user/%i/%r@%h:%p
+        ControlMaster auto
+        # Persist the socket after the first session is destroyed.
+        ControlPersist 1m
 ```
 
-Now Run this command:
+### Configuration usage:
+
+After Configuring SSH config file and Kerberos config file, 
+
+### Kerberos Commands
+
+Run this command to get your Kerberos ticket:
 
 ```bash
 kinit username
@@ -131,9 +168,42 @@ It will ask for your lxplus password and if the ticket is generated successfully
 klist
 ```
 
-This will print the kerberos ticket with the expiry time. To renew the kerberos ticket, run: 
+This will print the kerberos ticket with the expiry time. 
+
+To renew the kerberos ticket, run: 
 
 ```bash
 kinit
 ```
 
+### SSH and scp Commands:
+
+To login to any lxplus node, use
+
+```bash
+ssh lxplus
+```
+
+To login to lxplus8, use
+
+```bash
+ssh username@lxplus8.cern.ch
+```
+
+To copy from `source` to `destination`
+
+```bash
+scp path/to/source/file path/to/destination/dir
+```
+
+Example to copy file to lxplus(works only if the ssh is configured as provided above):
+
+```bash
+scp path/to/file lxplus:/path/to/destinations/
+```
+
+If not configured as said, use this instead:
+
+```bash
+scp path/to/file username@lxplus.cern.ch:/path/to/destination/dir
+```
