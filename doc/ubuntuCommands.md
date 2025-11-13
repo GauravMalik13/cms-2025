@@ -3,13 +3,15 @@
 ## List of Commands
 
 - [export](#export)
-
 - [source](#source)
-
-- [Symbolic links]
-(#ln--s-pathtosourcedir-pathtodestinationdir)
-
+- [Symbolic links](#ln--s-pathtosourcedir-pathtodestinationdir)
 - [Listing of files/dirs](#listing-in-terminal)
+- [Bash Scripts](#bash-scripts)
+    - [chmod](#chmod)
+- [Tmux](#tmux-persistent-sessions)
+- [Basic Commands Summary](#basic-commands)
+- [Miscellaneous](#miscelaneous-symbols)
+
 
 ### `export`
 
@@ -61,6 +63,10 @@ For more, check `man ls` or `ls --help`
 
 A bash script is a file containing a sequence of commands that are executed by the bash program line by line.
 In order to create a bash script, one needs to create a file with `.sh` extension.
+
+<div style="color: red">
+Note: While running/writing the file keep in mind that the working directory will be the one which is used to run the script. 
+</div>
 
 ```bash
 #!/bin/bash
@@ -150,3 +156,57 @@ Then use the following commands to do stuff:
 | Kill session       | `tmux kill-session -t mysession`|
 | Kill all sessions  | `tmux kill-server`              |
 | Rename session     | `Ctrl + b` → `$`                |
+
+
+## Basic commands
+
+* `cd`: Change the directory to a different location.
+* `ls`: List the contents of the current directory.
+* `mkdir`: Create a new directory.
+* `touch`: Create a new file.
+* `rm`: Remove a file or directory.
+* `cp`: Copy a file or directory.
+* `mv`: Move or rename a file or directory.
+* `echo`: Print text to the terminal.
+* `cat`: Concatenate and print the contents of a file.
+* `grep`: Search for a pattern in a file.
+* `chmod`: Change the permissions of a file or directory.
+* `sudo`: Run a command with administrative privileges.
+* `df`: Display the amount of disk space available.
+* `du -h`: Display the amount of disk space used in the dir. `-h` for human readable format. 
+* `history`: Show a list of previously executed commands.
+* `ps`: Display information about running processes.
+
+
+### Miscelaneous symbols
+
+1. Standard streams in bash
+
+    | Stream     | Description     | File Descriptor | Default  |
+    | ---------- | --------------- | --------------- | -------- |
+    | **stdin**  | Standard input  | `0`             | Keyboard |
+    | **stdout** | Standard output | `1`             | Screen   |
+    | **stderr** | Standard error  | `2`             | Screen   |
+
+2. Redirecting Output
+
+    | Symbol       | Meaning                               |                                       |
+    | ------------ | ------------------------------------- | ------------------------------------- |
+    | `>`          | redirect stdout (overwrite)           |                                       |
+    | `1>>` or `>>`| redirect **stdout** (append)          |                                       |
+    | `2>`         | redirect **stderr** (overwrite)       |                                       |
+    | `2>>`        | redirect **stderr** (append)          |                                       |
+    | `&>`         | redirect **stdout + stderr** together |                                       |
+    | `<`          | take input from file                  |                                       |
+    | `/dev/null`  | discard output                        |                                       |
+
+3. Examples
+
+    | Task                        | Command                           |        |
+    | --------------------------- | --------------------------------- | ------ |
+    | Overwrite file with output  | `ls > files.txt`                  |        |
+    | Append output               | `ls >> files.txt`                 |        |
+    | Save errors only            | `gcc bad.c 2> compile_errors.log` |        |
+    | Save both outputs           | `./run.sh > run.log 2>&1`         |        |
+    | Pipe one command to another | `cat file.txt                     | wc -l` |
+    | Read input from file        | `wc -l < file.txt`                |        |
