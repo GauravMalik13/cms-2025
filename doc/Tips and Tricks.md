@@ -124,7 +124,7 @@ Then paste this in the config file.
 
 ```bash
 Host lxplus
-        HostName lxplus*.cern.ch
+        HostName lxplus.cern.ch
         User magaurav
         ForwardX11 yes
         GSSAPIAuthentication yes
